@@ -2,8 +2,8 @@ from FrontEndLogic import Frontend
 from BusinessLogic import BikeRental, Customer
 import time
 
-Frontend.GetBikeTypes
 Frontend.DeclareStartingInventory()
+BikeRental.GetBikeType()
 Frontend.DeclareInvType()
 
 global currentCustID

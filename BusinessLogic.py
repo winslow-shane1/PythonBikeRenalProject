@@ -88,7 +88,7 @@ class BikeRental:
     # Name: Get Number of Bike Types
     # Desc: Gets Number of different bike types for inventory
     #---------------------------------------------------------------------------------------------------------------
-    def GetBikeType(intNumBikeTypes):
+    def GetBikeType():
         count = 0
         count += 1
         BikeRental.strBikeName1 = input("Define Bike Type #{}:".format(count))
