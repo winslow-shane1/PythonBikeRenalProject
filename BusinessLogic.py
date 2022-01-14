@@ -1,8 +1,7 @@
 #-----------------------------------------------------------------------------------------------------------------
 # Name: Shane Winslow, Caleb Gregory, and Maison Arroyo
-# Team: ?
 # Project Name: Bike Rental Object Oriented Project
-# Project Desc: Collection of Classes and their related business logic methods for the Customer and Bike shop entities 
+# Project Desc: Collection of Classes and their related business logic methods for the Customer and Bike shop objects 
 #-----------------------------------------------------------------------------------------------------------------
 #import datetime feature from Python library
 import datetime
@@ -209,7 +208,7 @@ class BikeRental:
     # Name: Display All Inventory
     # Desc: Displays entire inventory (Total And by Types)
     #---------------------------------------------------------------------------------------------------------------
-    def DisplayAllInventory(self):
+    def DisplayAllInventory():
         return BikeRental.intCurrentInv, BikeRental.intInventoryBikeType1, BikeRental.intInventoryBikeType2, BikeRental.intInventoryBikeType3
 
     #---------------------------------------------------------------------------------------------------------------
@@ -253,7 +252,7 @@ class BikeRental:
                 now = datetime.datetime.now()                      
                 customer.dtmRentalStart = now
 
-        elif self.intBikeCode == 3:
+        elif customer.intBikeCode == 3:
             if customer.intTotalNumBikes > BikeRental.intInventoryBikeType3:
                 raise Exception('Bike request larger than available supply')
                 return -2
@@ -318,7 +317,7 @@ class BikeRental:
         elif intRentalBasis == 2:
             # if rental basis shifted from hourly to daily, it may be less than 1 official day, add 1 day to Rental Period for correct calculation
             if customer.dtmRentalPeriod.days < 1:
-                customer.dtmRentalPeriod = customer.dtmRentalPeriod + datetime.timedelta(days=1)
+                customer.dtmRentalPeriod = datetime.timedelta(1,0,0,0,0,0,0)
             dblBaseAmountDue = customer.dtmRentalPeriod.days * 20 * customer.intTotalNumBikes
             customer.dblBaseAmountDue = dblBaseAmountDue
         
@@ -463,16 +462,4 @@ class Customer(BikeRental):
         else:
             self.intTotalNumBikes = intBikeRentalAmount
             self.intBikeCode = intBikeCode
-
-
-
-
-
-    
-
-
-           
-
-
-      
-
+            
