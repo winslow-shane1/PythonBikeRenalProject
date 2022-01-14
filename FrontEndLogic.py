@@ -9,6 +9,7 @@ class Frontend:
     ################################################################################################
     def DeclareStartingInventory():
         global blnValidate
+        print("Initializing Bike Shop Inventory...")
         strStartingInv = input("Enter the starting inventory for the bike shop: ")
         try:
             intStartingInv = int(strStartingInv)
@@ -23,7 +24,21 @@ class Frontend:
             return None
 
         BikeRental(intStartingInv)
-   
+
+    ################################################################################################
+    # Name: Display Available Bike Types
+    # Desc: Method is used to display available bike types in inventory
+    ################################################################################################
+    def DisplayAvailableBikeTypes():
+        display = BikeRental.DisplayAllBikeTypes()
+        bike1, bike2, bike3 = display
+        print("""
+                Current Bike Types in Inventory:
+                1. {} Bikes
+                2. {} Bikes
+                3. {} Bikes""".format(bike1, bike2, bike3))
+        
+
     ################################################################################################
     # Name: Declare Inventory Type
     # Desc: Function used to identify the number of bikes for the different bike types at bike shop
@@ -93,6 +108,32 @@ class Frontend:
 
         BikeRental.TypeInventory(intInventoryType1, intInventoryType2, intInventoryType3)
 
+    ################################################################################################
+    # Name: Display Total Inventory Count
+    # Desc: Method is used to display total count of available bikes in inventory
+    ################################################################################################
+    def DisplayTotalInventoryCount():
+        intCount = BikeRental.DisplayCurrentTotalInv()
+        print("""
+                There are currently {} bikes available""".format(intCount))
+
+    ################################################################################################
+    # Name: Display Detailed Inventory
+    # Desc: Method is used to display detailed description of bikes in available in inventory
+    ################################################################################################
+    def DisplayDetailedInventory():
+        displayCounts = BikeRental.DisplayAllInventory()
+        intTotalCount, intBikeType1Count, intBikeType2Count, intBikeType3Count = displayCounts
+
+        displayTypes = BikeRental.DisplayAllBikeTypes()
+        strBikeType1, strBikeType2, strBikeType3 = displayTypes
+        print("""
+                Total Number in Inventory: {}
+                -----------------------------
+                {} Bikes: {}
+                {} Bikes: {}
+                {} Bikes: {}""".format(intTotalCount, strBikeType1, intBikeType1Count, strBikeType2, intBikeType2Count, strBikeType3, intBikeType3Count))
+
     ########################################################################################################
     # Name: Declare New Customer
     # Desc: Function to create/record a new customer within the program, and store their first and last name
@@ -130,9 +171,10 @@ class Frontend:
         return intNewID, strLname
 
     ################################################################################################
-    # Name: Declare Inventory Type
-    # Desc: Function used to identify the number of bikes for the different bike types at bike shop
-    ################################################################################################
+    # Name: Request Bike
+    # Desc: Function used to identify the number of bikes and which type, the customer would ike to rent
+    ################################################################################################ 
+    #comment: This code could be implemented if running actual bike shop in real-time, not for display.
     def RequestBike(intCurrentCust):
         intBikeCode = 0
         intBikeAmount = 0
@@ -178,14 +220,17 @@ class Frontend:
         
         numBikes = int(input("""
                 Enter the number of bikes to rent:"""))
+
+        request = BikeRental.DisplayAllBikeTypes()
+        strBikeType1, strBikeType2, strBikeType3 = request
         bikeType = int(input("""
                 Enter the bike type code you would like to rent
                 
-                1. Mountain Bikes
-                2. Street Bikes
-                3. BMX Bikes
+                1. {} Bikes
+                2. {} Bikes
+                3. {} Bikes
                 
-                Enter Selection:"""))
+                Enter Selection:""".format(strBikeType1, strBikeType2, strBikeType3)))
 
         lstCustID[intCurrentCust].RequestBike(bikeType, numBikes)
         BikeRental.RentBike(lstCustID[intCurrentCust])
@@ -198,21 +243,24 @@ class Frontend:
         strDays = ""
         intDays = 0
         strDays = input("""
-                Enter the number of hours of rental:""")
+                Enter the number of days of rental:""")
         intDays = int(strDays)
 
         lstCustID[intCurrentCust].intDays = intDays
         
         numBikes = int(input("""
                 Enter the number of bikes to rent:"""))
+
+        request = BikeRental.DisplayAllBikeTypes()
+        strBikeType1, strBikeType2, strBikeType3 = request
         bikeType = int(input("""
                 Enter the bike type code you would like to rent
                 
-                1. Mountain Bikes
-                2. Street Bikes
-                3. BMX Bikes
+                1. {} Bikes
+                2. {} Bikes
+                3. {} Bikes
                 
-                Enter Selection:"""))
+                Enter Selection:""".format(strBikeType1, strBikeType2, strBikeType3)))
 
         lstCustID[intCurrentCust].RequestBike(bikeType, numBikes)
         BikeRental.RentBike(lstCustID[intCurrentCust])
@@ -232,6 +280,8 @@ class Frontend:
         
         numBikes = int(input("""
                 Enter the number of bikes to rent:"""))
+        request = BikeRental.DisplayAllBikeTypes()
+        strBikeType1, strBikeType2, strBikeType3 = request
         bikeType = int(input("""
                 Enter the bike type code you would like to rent
                 
@@ -239,7 +289,7 @@ class Frontend:
                 2. Street Bikes
                 3. BMX Bikes
                 
-                Enter Selection:"""))
+                Enter Selection:""".format(strBikeType1, strBikeType2, strBikeType3)))
 
         lstCustID[intCurrentCust].RequestBike(bikeType, numBikes)
         BikeRental.RentBike(lstCustID[intCurrentCust])
@@ -319,7 +369,7 @@ class Frontend:
                 Customer Name: {}
                 Customer Id:   {}""".format(strLastName, intCustID))
 
-        return intCustID, strLastName
+        return intCustID
 
     ################################################################################################
     # Name: Pull in Existing Customer by Last Name
@@ -336,8 +386,9 @@ class Frontend:
                 Customer Found!
 
                 Customer Name: {}
-                Customer Id:   {}""".format(strLName, intCustID))
-        return intCustID, strLastName
+                Customer Id:   {}""".format(strLastName, intCustID))
+
+        return intCustID
 
 ##################################################################################################
 # MAIN
@@ -345,45 +396,5 @@ class Frontend:
 blnValidate = bool(True)
 lstCustID = []
 lstCustLName = []
-    #Instantiate the bike shop inventory
-    #DeclareStartingInventory()
-    #intInvAmount = BikeRental.DisplayCurrentTotalInv()
-    #print(intInvAmount)
-
-    #Identify the differnent quantities of bike types currently at the bike shop
-    #DeclareInvType()
-    #InvAmounts = BikeRental.DisplayAllInventory()
-    #Total, Mountain, Road, Touring = InvAmounts
-    #print(Total, Mountain, Road, Touring)
-
-    #Instantiate 2 new customers
-    #intCurrentCust = DeclareNewCustomer()
-    #Note we will be using the intCurrentCust variable populated with value 1 for the remainder of the transaction
-    #intCurrentCust = DeclareNewCustomer()
-
-    #print(lstCustID[0].strLname)
-    #print(lstCustID[1].strLname)
-
-    #Associate Existing Customer to program
-    #intCurrentCustomer = PullCustID()
-
-    #Search for Existing Custoemer in program
-    #intCurrentCustomer = PullCustPullCustLName()
-
-    #Allow intCurrentCust to request a bike
-    #RequestBike(intCurrentCust)
-    #Allow intCurrentCust to rent a bike the hour
-    #RentBikebyHour(intCurrentCust)
-    #Allow intCurrentCust to return the bikes
-    #ReturnBike(intCurrentCust)
-
-    #illustrate the new Rental period modified by the hours of rent identified by the user previously
-    #print(lstCustID[intCurrentCust].dtmRentalPeriod)
-
-    #Ccalculate the Bill for intCurrentCust
-    #CalculateBills(intCurrentCust)
-
-    #Print the invoice of intCurrentCust
-    #PrintInvoice(intCurrentCust)
 
 
