@@ -13,10 +13,56 @@ global lstCustLName
 count = 0
 
 ################################################
-# Name: New Customer Menu
-# Abstract: This goes displays and prompts the new customer menu
+# Name: Show Inventory
+# Abstract: This method displays and prompts the show inventory menu
 ################################################
-def NewCustomerMenu():
+def ShowInventory(currentCustID):
+    while True:
+        print("""
+        ----Inventory Review Menu----""")
+        
+        if(int(len(lstCustID)) != 0):
+            print("""
+        Current Customer: {}""".format(lstCustLName[currentCustID]))
+        
+        print("""
+        1. Display Total Inventory Count
+        2. Display Current Inventory of Each Bike Type
+        3. Display Available Bike Types
+        4. Go to Main Menu""")
+
+        choice = input("""         
+        Enter choice: """)
+
+        try:
+            choice = int(choice)
+
+        except ValueError:
+
+            print("""
+        That's not an int!""")
+
+            continue
+        if choice == 1:
+            Frontend.DisplayTotalInventoryCount()
+
+        elif choice == 2:
+            Frontend.DisplayDetailedInventory()
+
+        elif choice == 3:
+            Frontend.DisplayAvailableBikeTypes()
+
+        elif choice == 4:
+            return currentCustID
+
+        else:
+            print("Invalid input. Please enter number between 1-5 ")
+
+################################################
+# Name: New Customer Menu
+# Abstract: This method displays and prompts the new customer menu
+################################################
+def NewCustomerMenu(currentCustID):
     while True:
         print("""
         ----New Customer Menu----""")
@@ -27,9 +73,9 @@ def NewCustomerMenu():
         
         print("""
         1. Register as New Customer
-        2. Rent Bike by Hour - $5
-        3. Rent Bike by Day - $20
-        4. Rent Bike by Week - $60
+        2. Rent Bike by Hour - $5 per Bike
+        3. Rent Bike by Day - $20 per Bike
+        4. Rent Bike by Week - $60 per Bike
         5. Go to Main Menu""")
 
         choice = input("""         
@@ -98,15 +144,13 @@ def ReturnCustomerMenu(currentCustID):
         That's not an int!""")
 
             continue
+
         if choice == 1:
-            display = Frontend.PullCustID()
-            intCustID, strLName = display
+            intCustID = Frontend.PullCustID()
             currentCustID = intCustID
 
         elif choice == 2:
-            display = Frontend.PullCustLName()
-            intCustID, strLName = display
-            
+            intCustID = Frontend.PullCustLName()
             currentCustID = intCustID
 
         elif choice == 3:
@@ -125,6 +169,7 @@ def ReturnCustomerMenu(currentCustID):
 # Name: Main
 # Abstract: Main program
 ################################################
+currentCustID = ""
 
 while True:
         
@@ -162,12 +207,10 @@ while True:
             continue
 
         if choice == 1:
-            display = BikeRental.DisplayAllBikeTypes()
-            bike1, bike2, bike3 = display
-            print('There are {}, {}, and {} bikes available.'.format(bike1, bike2, bike3))
+            ShowInventory(currentCustID)
 
         elif choice == 2:
-            currentCustID = NewCustomerMenu()
+            currentCustID = NewCustomerMenu(currentCustID)
 
         elif choice == 3:
             currentCustID = ReturnCustomerMenu(currentCustID)
